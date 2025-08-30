@@ -6,9 +6,12 @@ router.put("/updateAllTasks", (req, res) => {
     con.query('update tasks set status = "pendiente"', (er, result) => {
         if(er){
             console.error(er);
+            res.status(500).json({
+                message:"Internal server error"
+            })
         }
     })
-})
+});
 
 router.get("/tasks", (req, res) => {
     con.query("select * from tasks", (er, result) => {
