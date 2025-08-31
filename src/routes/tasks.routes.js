@@ -45,7 +45,7 @@ router.get("/countTasks", (req, res) => {
         }
         res.status(200).json({
             OK:true,
-            body:{count:result}
+            count:result[0].count_tasks
         });
     })
 })
