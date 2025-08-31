@@ -10,16 +10,6 @@ router.put("/updateAllTasks", (req, res) => {
     })
 })
 
-// router.get("/viewTasks", (req, res) => {
-//     con.query("select * from tasks", (er, result) => {
-//         if (er) {
-//             console.error(er);
-//             res.status(500).send("fallo")
-//         }
-
-//         res.status(200).json({ result })
-//     });
-// })
 
 router.get("/viewTasks", (req, res) => {
     con.query("SELECT tasks.id_task, tasks.name, locations.name AS location_name, tasks.status FROM tasks JOIN locations ON tasks.id_location = locations.id_location;", (er, result) => {
@@ -45,7 +35,20 @@ router.get("/tasksGetEdit/:id", (req, res) => {
     })
 })
 
-
+router.get("/countTasks", (req, res) => {
+    con.query("select count(*) as count_tasks from tasks;", (er, result) => {
+        if(er) {
+            console.error(er);
+            res.status(500).json({
+                message:"Internal server error"
+            });
+        }
+        res.status(200).json({
+            OK:true,
+            body:{count:result}
+        });
+    })
+})
 
 router.post("/sendTask", (req, res) => {
     const { name, id_location, status } = req.body;

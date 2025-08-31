@@ -24,7 +24,6 @@ router.get("/viewAlerts", (req, res) => {
 });
 
 
-
 // first check if there is already such an alert and then if not, create it
 router.post("/newAlerts", (req, res) => {
   const { alert_type, message, id_location, id_user } = req.body;
@@ -104,7 +103,7 @@ router.delete('/alerts/:id_alert', (req, res) => {
 
 
 //When you click on "the ready button" it goes from in process to ready
-router.put("/alerts/:id/status", (req, res) => {
+router.put("/alert/:id/status", (req, res) => {
   const id = parseInt(req.params.id);
 
   const change = "UPDATE alerts SET status = 'listo' WHERE id_alert = ?";
