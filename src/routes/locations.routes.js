@@ -4,7 +4,7 @@ import { con } from "../../server.js";
 const router = Router();  
 
 // Endpoint to get all locations
-router.get("/locations", (req, res) => {
+router.get("/viewLocations", (req, res) => {
   con.query("SELECT id_location, name FROM locations", (er, result) => {
     if (er) {
       console.error("Error en la consulta:", er);

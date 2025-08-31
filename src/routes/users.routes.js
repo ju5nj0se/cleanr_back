@@ -117,8 +117,6 @@ router.get("/user", (req, res) => {
     console.log("GET".blue, `/user?${key}=${value}`);
 });
 
-
-
 router.post("/login", (req, res) => {
     const { email, password } = req.body;
 

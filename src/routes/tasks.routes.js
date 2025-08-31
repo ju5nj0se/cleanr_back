@@ -10,16 +10,27 @@ router.put("/updateAllTasks", (req, res) => {
     })
 })
 
-router.get("/tasks", (req, res) => {
-    con.query("select * from tasks", (er, result) => {
+// router.get("/viewTasks", (req, res) => {
+//     con.query("select * from tasks", (er, result) => {
+//         if (er) {
+//             console.error(er);
+//             res.status(500).send("fallo")
+//         }
+
+//         res.status(200).json({ result })
+//     });
+// })
+
+router.get("/viewTasks", (req, res) => {
+    con.query("SELECT tasks.id_task, tasks.name, locations.name AS location_name, tasks.status FROM tasks JOIN locations ON tasks.id_location = locations.id_location;", (er, result) => {
         if (er) {
             console.error(er);
             res.status(500).send("fallo")
         }
 
         res.status(200).json({ result })
-    });
-})
+    })
+});
 
 router.get("/tasksGetEdit/:id", (req, res) => {
     const {id} = req.params
@@ -35,16 +46,6 @@ router.get("/tasksGetEdit/:id", (req, res) => {
 })
 
 
-router.get("/tasksArea", (req, res) => {
-    con.query("SELECT tasks.id_task, tasks.name, locations.name AS location_name, tasks.status FROM tasks JOIN locations ON tasks.id_location = locations.id_location;", (er, result) => {
-        if (er) {
-            console.error(er);
-            res.status(500).send("fallo")
-        }
-
-        res.status(200).json({ result })
-    })
-})
 
 router.post("/sendTask", (req, res) => {
     const { name, id_location, status } = req.body;
@@ -64,7 +65,7 @@ router.post("/sendTask", (req, res) => {
     });
 });
 
-router.put("/tasks/:id", (req, res) => {
+router.put("/updateTask/:id", (req, res) => {
     const { id } = req.params
     const { name, id_location, status } = req.body
     con.query("UPDATE tasks SET name = ?, id_location = ?, status = ? WHERE id_task = ?",
@@ -77,7 +78,7 @@ router.put("/tasks/:id", (req, res) => {
         })
 })
 
-router.delete("/tasks/:id", (req, res) => {
+router.delete("/deleteTask/:id", (req, res) => {
     const { id } = req.params
     console.log(id);
     con.query("DELETE FROM tasks WHERE id_task = ?", [id],
@@ -88,35 +89,6 @@ router.delete("/tasks/:id", (req, res) => {
 
             res.status(200).json({ result })
         })
-});
-
-router.get("/viewTasksAdmin", (req, res) => {
-    const query = req.query;
-
-    con.query("select t.id_task, t.name as name_task, l.name as ubication, t.status as status, u.fullname as user \
-               from register_task r 	\
-               join users u \
-               on u.id_user = r.id_user \
-               join tasks t \
-               on t.id_task = r.id_task \
-               join locations l \
-               on t.id_location = l.id_location;",
-
-        (er, result) => {
-            if (er) {
-                console.error(er);
-                res.status(500).json({
-                    OK: false,
-                    message: "Internal server error"
-                });
-            }
-
-            res.status(200).json({
-                OK: true,
-                body: result
-            });
-        });
-    console.log("GET".blue, "/tasks/viewTasksAdmin");
 });
 
 

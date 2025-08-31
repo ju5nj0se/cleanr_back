@@ -3,7 +3,7 @@ import { con } from '../../server.js';
 const router = Router();
 
 // Alerts in process with the place name and not the id
-router.get("/alerts", (req, res) => {
+router.get("/viewAlerts", (req, res) => {
   const query = `
     SELECT 
       a.id_alert,
@@ -73,7 +73,7 @@ router.post("/newAlerts", (req, res) => {
 });
 
 // VER ALERTAS PROPIAS
-router.get("/alerts/user/:id_user", (req, res) => {
+router.get("/alert/user/:id_user", (req, res) => {
   const id_user = req.params.id_user;
   const query = `
     SELECT 

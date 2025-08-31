@@ -29,17 +29,17 @@ import taskRoutes from './src/routes/tasks.routes.js'
 app.use("/tasks", taskRoutes)
 
 import locationRoutes from './src/routes/locations.routes.js'
-app.use("/", locationRoutes)
+app.use("/locations", locationRoutes)
 
 
 import alertsRoutes from './src/routes/alerts.routes.js';
-app.use ("/alerts", alertsRoutes)
+app.use("/alerts", alertsRoutes)
 
-import registerTasksRoutes from './src/routes/registerTasks.routes.js';
-app.use("/registerTasks", registerTasksRoutes);
+import registerTasksRoutes from './src/routes/registers.routes.js';
+app.use("/registers", registerTasksRoutes);
 
 //Open local server in port 3000 and verify the credentials of the database
-const server = app.listen(offServer.PORT || 3000, async (er) => {
+const server = app.listen(process.env.PORT, async (er) => {
     try {
         await con.connect();                                                    
 
