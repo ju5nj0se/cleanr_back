@@ -10,8 +10,7 @@ router.put("/updateAllTasks", (req, res) => {
     })
 })
 
-
-router.get("/viewTasks", (req, res) => {
+router.get("/tasksArea", (req, res) => {
     con.query("SELECT tasks.id_task, tasks.name, locations.name AS location_name, tasks.status FROM tasks JOIN locations ON tasks.id_location = locations.id_location;", (er, result) => {
         if (er) {
             console.error(er);
@@ -36,7 +35,7 @@ router.get("/tasksGetEdit/:id", (req, res) => {
 })
 
 router.get("/countTasks", (req, res) => {
-    con.query("select count(*) as count_tasks from tasks;", (er, result) => {
+    con.query("select count(*) as count_tasks from tasks where status = 'pendiente';", (er, result) => {
         if(er) {
             console.error(er);
             res.status(500).json({
@@ -50,14 +49,14 @@ router.get("/countTasks", (req, res) => {
     })
 })
 
-router.post("/sendTask", (req, res) => {
+router.post("/registerTask", (req, res) => {
     const { name, id_location, status } = req.body;
 
     con.query("insert into tasks(name, id_location, status) values(?, ?, ?);", [name, id_location, status], (error, result) => {
         if (error) {
             console.log("ERROR".red, error);
             res.status(500).json({
-                message: "inasdf"
+                message: "Intenal server error"
             });
         }
 
@@ -94,8 +93,7 @@ router.delete("/deleteTask/:id", (req, res) => {
         })
 });
 
-
-router.patch("/:id", (req, res) => {
+router.patch("/updateState/:id", (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
 

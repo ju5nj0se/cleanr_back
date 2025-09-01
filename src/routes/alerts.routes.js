@@ -25,7 +25,7 @@ router.get("/viewAlerts", (req, res) => {
 
 
 // first check if there is already such an alert and then if not, create it
-router.post("/newAlerts", (req, res) => {
+router.post("/newAlert", (req, res) => {
   const { alert_type, message, id_location, id_user } = req.body;
 
   const alertCheck = `
@@ -72,7 +72,7 @@ router.post("/newAlerts", (req, res) => {
 });
 
 // VER ALERTAS PROPIAS
-router.get("/alert/user/:id_user", (req, res) => {
+router.get("/user/:id_user", (req, res) => {
   const id_user = req.params.id_user;
   const query = `
     SELECT 
@@ -103,7 +103,7 @@ router.delete('/alerts/:id_alert', (req, res) => {
 
 
 //When you click on "the ready button" it goes from in process to ready
-router.put("/alert/:id/status", (req, res) => {
+router.put("/markDoneAlert/:id", (req, res) => {
   const id = parseInt(req.params.id);
 
   const change = "UPDATE alerts SET status = 'listo' WHERE id_alert = ?";
@@ -117,8 +117,8 @@ router.put("/alert/:id/status", (req, res) => {
 });
 
 // See that they are ready
-router.get("/alerts/listo", (req, res) => {
-  con.query("SELECT * FROM alerts WHERE status = 'listo'", (err, result) => {
+router.get("/alertsReady", (req, res) => {
+  con.query("SELECT alerts.alert_type, locations.name as location_name, alerts.message FROM alerts JOIN locations on alerts.id_location = locations.id_location WHERE status = 'listo'", (err, result) => {
     if (err) return res.status(500).json({ error: err.sqlMessage });
     res.json({ result });
   });
