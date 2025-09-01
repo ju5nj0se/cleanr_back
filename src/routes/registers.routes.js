@@ -22,14 +22,20 @@ router.post("/sendRegister", (req, res) => {
 
 router.get("/viewRegistersAdmin", (req, res) => {
     const query = req.query;
-    con.query("select t.id_task, t.name as name_task, l.name as ubication, t.status as status, u.fullname as user, r.registration_date \
-               from register_task r 	\
-               join users u \
-               on u.id_user = r.id_user \
-               join tasks t \
-               on t.id_task = r.id_task \
-               join locations l \
-               on t.id_location = l.id_location;",
+    con.query("select t.id_task, \
+       t.name as name_task, \
+       l.name as ubication, \
+       t.status as status, \
+       u.fullname as user, \
+       r.registration_date\
+        from tasks t \
+        join locations l \
+        on t.id_location = l.id_location \
+        left join register_task r \
+        on t.id_task = r.id_task \
+       and DATE(r.registration_date) = CURDATE() \
+        left join users u \
+        on u.id_user = r.id_user;",
 
         (er, result) => {
             if (er) {
