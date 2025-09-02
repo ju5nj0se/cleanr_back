@@ -2,7 +2,7 @@ import { Router } from "express";
 import { con } from '../../server.js';
 const router = Router();
 
-router.put("/updateAllTasks", (req, res) => {
+router.get("/updateAllTasks", (req, res) => {
     con.query('update tasks set status = "pendiente"', (er, result) => {
         if(er){
             console.error(er);
