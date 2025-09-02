@@ -2,14 +2,13 @@ name: Daily API Call
 
 on:
   schedule:
-    # Ejecutar todos los días a las 9:00 AM (Colombia = UTC-5, o sea 14:00 UTC)
-    - cron: "0 14 * * *"
-  workflow_dispatch: # Permite ejecutarlo manualmente también
+    - cron: "0 5 * * *"
+  workflow_dispatch:
 
 jobs:
   call-api:
     runs-on: ubuntu-latest
     steps:
-      - name: Llamar API con curl
+      - name: update all tasks
         run: |
-          curl -X GET https://tu-api.onrender.com/endpoint
+          curl -X GET https://cleanr-back.onrender.com/tasks/updateAllTasks

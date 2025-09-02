@@ -5,9 +5,11 @@ const router = Router();
 router.get("/updateAllTasks", (req, res) => {
     con.query('update tasks set status = "pendiente"', (er, result) => {
         if(er){
+            res.status(500).send("failed")
             console.error(er);
         }
     })
+    res.status(200).send("complete")
 })
 
 router.get("/tasksArea", (req, res) => {
